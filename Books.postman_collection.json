@@ -1,0 +1,557 @@
+{
+	"info": {
+		"_postman_id": "8723aad1-0383-4aca-a806-2e6057b80415",
+		"name": "Books",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"MohammadAli@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/v1/auth/user/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"Mohammad Ali\",\r\n    \"email\":\"MohammadAli@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/v1/auth/user/register",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"v1",
+										"auth",
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Books",
+					"item": [
+						{
+							"name": "getAll",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjA0Njg5MjAxLCJleHAiOjE3MjE4MDk0ODl9.rGdhOOo4tFnboOz3g7gZ33Lbh7rErIP16oes75OKoZq-RvFtXpy_rfcQ_EdEn_JxgeY9krobkCeibdf8pUWeHQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/books",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjA0Njg5MjAxLCJleHAiOjE3MjE4MDk0ODl9.rGdhOOo4tFnboOz3g7gZ33Lbh7rErIP16oes75OKoZq-RvFtXpy_rfcQ_EdEn_JxgeY9krobkCeibdf8pUWeHQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/books/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"books",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjEwMDQyNjc2LCJleHAiOjE3MjE4MTQ4NDJ9.76OsX2OxvqsPmEji7Xsk9J8tywF7Pu32BaYBAMm2MvfxzLqStt5qs6GJGlNqacrqpVhMb2D5V3pwd-6-okO3Wg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"Book 1\",\r\n    \"author\":\"author1\",\r\n    \"publication_year\":\"2024-07-17\",\r\n    \"printing_date\":\"2024-07-17\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/books",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"books"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjEwMDQyNjc2LCJleHAiOjE3MjE4MTQ4NDJ9.76OsX2OxvqsPmEji7Xsk9J8tywF7Pu32BaYBAMm2MvfxzLqStt5qs6GJGlNqacrqpVhMb2D5V3pwd-6-okO3Wg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"Book 2\",\r\n    \"author\":\"author 2\",\r\n    \"publication_year\":\"2024-07-17\",\r\n    \"printing_date\":\"2024-06-17\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/books/5",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"books",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjA0Njg5MjAxLCJleHAiOjE3MjE4MDk0ODl9.rGdhOOo4tFnboOz3g7gZ33Lbh7rErIP16oes75OKoZq-RvFtXpy_rfcQ_EdEn_JxgeY9krobkCeibdf8pUWeHQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/books/3",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"books",
+										"3"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Patrons",
+					"item": [
+						{
+							"name": "getAll",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjA0Njg5MjAxLCJleHAiOjE3MjE4MDk0ODl9.rGdhOOo4tFnboOz3g7gZ33Lbh7rErIP16oes75OKoZq-RvFtXpy_rfcQ_EdEn_JxgeY9krobkCeibdf8pUWeHQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/patrons",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patrons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjA0Njg5MjAxLCJleHAiOjE3MjE4MDk0ODl9.rGdhOOo4tFnboOz3g7gZ33Lbh7rErIP16oes75OKoZq-RvFtXpy_rfcQ_EdEn_JxgeY9krobkCeibdf8pUWeHQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/patrons/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patrons",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjEwMDQyNjc2LCJleHAiOjE3MjE4MTQ4NDJ9.76OsX2OxvqsPmEji7Xsk9J8tywF7Pu32BaYBAMm2MvfxzLqStt5qs6GJGlNqacrqpVhMb2D5V3pwd-6-okO3Wg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Mohammad Ali\",\r\n    \"email\":\"mohammadali@gmail.com\",\r\n    \"mobile\":\"+963932145230\",\r\n    \"address\":\"Damas\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/patrons",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patrons"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjEwMDQyNjc2LCJleHAiOjE3MjE4MTQ4NDJ9.76OsX2OxvqsPmEji7Xsk9J8tywF7Pu32BaYBAMm2MvfxzLqStt5qs6GJGlNqacrqpVhMb2D5V3pwd-6-okO3Wg",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\":1,\r\n    \"name\":\"Mohammad Ali\",\r\n    \"email\":\"mohammadali@gmail.com\",\r\n    \"mobile\":\"+963932145230\",\r\n    \"address\":\"Damas\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/patrons/1",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patrons",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteById",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjA0Njg5MjAxLCJleHAiOjE3MjE4MDk0ODl9.rGdhOOo4tFnboOz3g7gZ33Lbh7rErIP16oes75OKoZq-RvFtXpy_rfcQ_EdEn_JxgeY9krobkCeibdf8pUWeHQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/patrons/8",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"patrons",
+										"8"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Borrow",
+					"item": [
+						{
+							"name": "setBorrow",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjA0Njg5MjAxLCJleHAiOjE3MjE4MDk0ODl9.rGdhOOo4tFnboOz3g7gZ33Lbh7rErIP16oes75OKoZq-RvFtXpy_rfcQ_EdEn_JxgeY9krobkCeibdf8pUWeHQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"borrowing_date\":\"2024-07-17\",\r\n    \"return_date\":\"2024-08-17\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/borrow/1/patron/9",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"borrow",
+										"1",
+										"patron",
+										"9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getBorrowBook",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJNb2hhbW1hZEFsaUBnYW1pbC5jb20iLCJjcmVhdGVkIjoxNzIxMjA0Njg5MjAxLCJleHAiOjE3MjE4MDk0ODl9.rGdhOOo4tFnboOz3g7gZ33Lbh7rErIP16oes75OKoZq-RvFtXpy_rfcQ_EdEn_JxgeY9krobkCeibdf8pUWeHQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8080/api/return/1/patron/9",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"return",
+										"1",
+										"patron",
+										"9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
