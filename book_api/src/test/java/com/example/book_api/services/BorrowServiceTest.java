@@ -51,7 +51,7 @@ public class BorrowServiceTest {
     public void setup() {
         book = new Book(1, "book 1", "author 1", LocalDate.now(), LocalDate.now());
         patron = new Patron(1, "Mohammad Ali", "mohammad@gmail.com", "+96911111111", "Damascus");
-        patron = new Patron(2, "Ali", "ali@gmail.com", "+96922222222", "Damascus");
+        patron1 = new Patron(2, "Ali", "ali@gmail.com", "+96922222222", "Damascus");
         borrow = new Borrow(1, new Date(2024, 7, 17), new Date(2024, 7, 17), patron, book);
 
         List<Borrow> list = Arrays.asList(

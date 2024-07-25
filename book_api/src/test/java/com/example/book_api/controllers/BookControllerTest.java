@@ -1,6 +1,5 @@
 package com.example.book_api.controllers;
 
-import com.example.book_api.configurations.AuthJWTFilter;
 import com.example.book_api.configurations.TokenUtil;
 import com.example.book_api.controllers.api.BookController;
 import com.example.book_api.models.dto.BookDto;
@@ -8,38 +7,25 @@ import com.example.book_api.models.entities.Book;
 import com.example.book_api.models.entities.Role;
 import com.example.book_api.models.entities.User;
 import com.example.book_api.models.entities.UserDetailsImpl;
-import com.example.book_api.models.otd.MyResponse;
 import com.example.book_api.services.BookService;
 import com.example.book_api.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
-import org.hamcrest.core.AllOf;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.StatusResultMatchers;
-
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.hamcrest.Matchers.*;
@@ -47,6 +33,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @WebMvcTest(BookController.class)
 @AutoConfigureMockMvc
 public class BookControllerTest {
@@ -164,7 +151,7 @@ public class BookControllerTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     @DisplayName("Check delete book by id")
     void deleteBookTest() throws Exception {
         doNothing().when(bookService).deleteById(anyInt());
