@@ -1,23 +1,51 @@
 package com.example.book_api.controllers;
 
+import com.example.book_api.configurations.AuthJWTFilter;
+import com.example.book_api.configurations.TokenUtil;
 import com.example.book_api.controllers.api.BookController;
+import com.example.book_api.models.dto.BookDto;
 import com.example.book_api.models.entities.Book;
+import com.example.book_api.models.entities.Role;
+import com.example.book_api.models.entities.User;
+import com.example.book_api.models.entities.UserDetailsImpl;
+import com.example.book_api.models.otd.MyResponse;
 import com.example.book_api.services.BookService;
+import com.example.book_api.services.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
+import org.hamcrest.core.AllOf;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.http.HttpHeaders;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.result.StatusResultMatchers;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.BDDMockito.given;
+import static org.hamcrest.Matchers.*;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(BookController.class)
 @AutoConfigureMockMvc
@@ -27,28 +55,130 @@ public class BookControllerTest {
 
     @MockBean
     private BookService bookService;
+    @MockBean
+    private UserService userService;
 
-    @Test
-    void testGetAllBooks() throws Exception {
-        List<Book> books = Arrays.asList(
-                new Book(1,"Book 1","Author 1", LocalDate.now(),LocalDate.now()),
-                new Book(2,"Book 2","Author 2", LocalDate.now(),LocalDate.now())
+    @MockBean
+    private TokenUtil tokenUtil;
+    private User userAuth;
+    private Book book;
+    private List<Book> books;
+    private String token;
+    private  ObjectMapper mapper;
+
+    @BeforeEach
+    public void setup() {
+        userAuth = new User(1, "Mohammad", "mohammad@gmail.com", "12345678", true);
+        userAuth.setRoles(new HashSet<Role>(Arrays.asList(new Role(1, "User"))));
+        UserDetailsImpl userDetails = new UserDetailsImpl(userAuth);
+        token = tokenUtil.generateToken(userDetails);
+
+        book = new Book(1, "book 1", "author 1", LocalDate.now(), LocalDate.now());
+        books = Arrays.asList(book,
+                new Book(2, "book 2", "author 2", LocalDate.now(), LocalDate.now())
         );
-        when(bookService.getAll()).thenReturn(books);
 
-        // Act & Assert
-        mockMvc.perform(MockMvcRequestBuilders.get("api/books")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("Book 1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].author").value("Author 1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].title").value("Book 2"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[1].author").value("Author 2"));
+        mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
     }
 
 
+    @Test
+    @Order(1)
+    @DisplayName("Check all books")
+    void getAllBooksTest() throws Exception {
+        given(bookService.getAll()).willReturn(books);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/api/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .with(user(userAuth.getEmail()).roles("User"));
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.size()", is(2)))
+                .andExpect(jsonPath("$.data.[0].id", is(1)))
+                .andExpect(jsonPath("$.data.[0].title", is("book 1")))
+                .andExpect(jsonPath("$.data.[1].id", is(2)))
+                .andExpect(jsonPath("$.data.[1].title", is("book 2")));
+
+    }
+
+    @Test
+    @Order(2)
+    @DisplayName("Check get book by id")
+    void getBookTest() throws Exception {
+        given(bookService.findById(1)).willReturn(book);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get("/api/books/{id}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .with(user(userAuth.getEmail()).roles("User"));
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.id", is(1)))
+                .andExpect(jsonPath("$.data.title", is("book 1")))
+        ;
+    }
+
+    @Test
+    @Order(3)
+    @DisplayName("Check create book")
+    void createBookTest() throws Exception {
+        given(bookService.save(BookDto.to_Dto(book))).willReturn(book);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/api/books")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(BookDto.to_Dto(book)))
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .with(user(userAuth.getEmail()).roles("User"));
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.id", is(1)))
+                .andExpect(jsonPath("$.data.title", is("book 1")))
+        ;
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Check update book")
+    void updateBookTest() throws Exception {
+        book.setTitle("Spring Boot");
+        given(bookService.update(1,BookDto.to_Dto(book))).willReturn(book);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.put("/api/books/{id}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(BookDto.to_Dto(book)))
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .with(user(userAuth.getEmail()).roles("User"));
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data.id", is(1)))
+                .andExpect(jsonPath("$.data.title", is("Spring Boot")))
+        ;
+    }
+
+    @Test
+    @Order(4)
+    @DisplayName("Check delete book by id")
+    void deleteBookTest() throws Exception {
+        doNothing().when(bookService).deleteById(anyInt());
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.delete("/api/books/{id}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                .with(user(userAuth.getEmail()).roles("User"));
+
+        mockMvc.perform(request)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status", is(true)))
+                .andExpect(jsonPath("$.message", is("Successfully")))
+        ;
+    }
 
 }

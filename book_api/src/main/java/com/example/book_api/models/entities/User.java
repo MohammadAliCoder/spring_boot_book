@@ -49,6 +49,14 @@ public class User  implements Serializable {
             orphanRemoval = true)
     private Patron patron;
 
+    public User(int id, @NotNull(message = "username is required") String username, @NotNull(message = "email is required") String email, @NotNull(message = "password is required") String password, boolean enabled) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.enabled = enabled;
+    }
+
     public static User to_Entity(UserDto userDto){
         return User.builder()
                 .id(userDto.getId())

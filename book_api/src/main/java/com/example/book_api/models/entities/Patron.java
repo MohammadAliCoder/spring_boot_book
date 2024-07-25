@@ -42,6 +42,23 @@ public class Patron {
             cascade = CascadeType.REMOVE)
     List<Borrow> borrows;
 
+    public Patron(int id, @NotNull(message = "name is required") String name, @NotNull(message = "email is required") String email, @NotNull(message = "mobile is required") String mobile, @NotNull(message = "address is required") String address) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
+    }
+
+    public Patron(int id, @NotNull(message = "name is required") String name, @NotNull(message = "email is required") String email, @NotNull(message = "mobile is required") String mobile, @NotNull(message = "address is required") String address, User user) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.mobile = mobile;
+        this.address = address;
+        this.user = user;
+    }
+
     public static Patron to_Entity(PatronDto patronDto) {
         return Patron.builder()
                 .id(patronDto.getId())
